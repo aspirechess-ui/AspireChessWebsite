@@ -11,6 +11,7 @@ const authRoutes = require('./routes/auth');
 const studentRoutes = require('./routes/students');
 const tournamentRoutes = require('./routes/tournaments');
 const enrollmentRoutes = require('./routes/enrollments');
+const programRoutes = require('./routes/programs');
 
 const app = express();
 
@@ -38,6 +39,7 @@ const corsOptions = {
       // Production/staging frontend URL from environment variable
       process.env.FRONTEND_URL,
       'https://aspirechessacademy.in',
+      'https://www.aspirechessacademy.in',
       'https://aspire-chess-website-frontend.vercel.app',
       // Local development
       'http://localhost:5173',
@@ -103,6 +105,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/tournaments', tournamentRoutes);
 app.use('/api/enrollments', enrollmentRoutes);
+app.use('/api/programs', programRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

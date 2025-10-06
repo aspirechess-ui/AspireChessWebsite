@@ -9,7 +9,7 @@ import DashboardLayout from './layouts/DashboardLayout'
 import { Home, About, Programs, Students, Tournaments, Contact } from "./pages/public"
 
 // Dashboard pages
-import { Dashboard, Login, Students as AdminStudents, Tournaments as AdminTournaments, Enrollments } from "./pages/dashboard"
+import { Dashboard, Login, Students as AdminStudents, Tournaments as AdminTournaments, Enrollments, Programs as AdminPrograms } from "./pages/dashboard"
 import ProtectedRoute from './pages/dashboard/components/ProtectedRoute'
 
 // Error pages
@@ -41,6 +41,7 @@ const AppRoutes = () => {
                 <Route path="students" element={<AdminStudents />} />
                 <Route path="tournaments" element={<AdminTournaments />} />
                 <Route path="enrollments" element={<Enrollments />} />
+                <Route path="programs" element={<AdminPrograms />} />
             </Route>
 
             {/* 404 Not Found - Catch all unmatched routes */}

@@ -1,7 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import api from "../../../utils/api";
 
 const Programs = () => {
-  const programs = [
+  const [programs, setPrograms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    fetchPrograms();
+  }, []);
+
+  const fetchPrograms = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get('/api/programs');
+      setPrograms(response.data.data);
+      setError('');
+    } catch (err) {
+      console.error('Fetch programs error:', err);
+      const errorMessage = err.response?.status === 404 
+        ? 'Programs service unavailable'
+        : err.code === 'NETWORK_ERROR' || err.message.includes('Network Error')
+        ? 'Unable to connect to server'
+        : 'Unable to load programs';
+      setError(errorMessage);
+      // Fallback to static data if API fails
+      setPrograms([
     {
       branch: "Kalamboli Branch",
       location: "Main Branch",
@@ -113,48 +137,50 @@ const Programs = () => {
         "Digital resources",
         "Online tournaments",
       ],
-    },
-  ];
-
-  const getLevelColor = (branch) => {
-    switch (branch) {
-      case "Kalamboli Branch":
-        return "from-green-500 to-emerald-600";
-      case "Kamothe Branch":
-        return "from-blue-500 to-cyan-600";
-      case "Roadpali Branch":
-        return "from-purple-500 to-violet-600";
-      case "Online Mode":
-        return "from-orange-500 to-red-600";
-      default:
-        return "from-gray-500 to-gray-600";
+    }
+      ]);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const getLevelBorder = (branch) => {
-    switch (branch) {
-      case "Kalamboli Branch":
-        return "border-green-500/30";
-      case "Kamothe Branch":
-        return "border-cyan-500/30";
-      case "Roadpali Branch":
-        return "border-purple-500/30";
-      case "Online Mode":
-        return "border-orange-500/30";
-      default:
-        return "border-gray-500/30";
-    }
+  const getLevelColor = (colorTheme) => {
+    const colorMap = {
+      green: "from-green-500 to-emerald-600",
+      blue: "from-blue-500 to-cyan-600", 
+      purple: "from-purple-500 to-violet-600",
+      orange: "from-orange-500 to-red-600",
+      red: "from-red-500 to-pink-600",
+      indigo: "from-indigo-500 to-blue-600",
+      pink: "from-pink-500 to-rose-600",
+      yellow: "from-yellow-500 to-orange-600"
+    };
+    return colorMap[colorTheme] || "from-blue-500 to-cyan-600";
   };
 
-  const handleEnrollClick = (branchName) => {
-    const adminNumber = "+917039184939"; // Replace with actual admin number
-    const message = `Hi! I am interested to join and learn chess at ${branchName}. Please provide me with more details about the programs and enrollment process.`;
+  const getLevelBorder = (colorTheme) => {
+    const colorMap = {
+      green: "border-green-500/30",
+      blue: "border-cyan-500/30",
+      purple: "border-purple-500/30", 
+      orange: "border-orange-500/30",
+      red: "border-red-500/30",
+      indigo: "border-indigo-500/30",
+      pink: "border-pink-500/30",
+      yellow: "border-yellow-500/30"
+    };
+    return colorMap[colorTheme] || "border-cyan-500/30";
+  };
+
+  const handleEnrollClick = (program) => {
+    const adminNumber = program.whatsappNumber || "+917039184939";
+    const message = `Hi! I am interested to join and learn chess at ${program.branch}. Please provide me with more details about the programs and enrollment process.`;
     const whatsappUrl = `https://wa.me/${adminNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
   };
 
   const handleScheduleClick = () => {
-    const adminNumber = "+917039184939"; // Replace with actual admin number
+    const adminNumber = "+917039184939";
     const message = `Hi! I am interested to join Free Consultation. Please provide me with more details about the programs and chess.`;
     const whatsappUrl = `https://wa.me/${adminNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
@@ -199,19 +225,29 @@ const Programs = () => {
       {/* Programs Grid */}
       <section className="px-4">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {programs.map((program, index) => (
-              <div
-                key={index}
-                className={`border bg-black/50 backdrop-blur-sm ${getLevelBorder(program.branch)} hover-glow group flex h-full transform flex-col rounded-xl p-6 transition-all duration-300 hover:scale-105`}
-              >
-                {/* Card Content Container */}
-                <div className="flex flex-grow flex-col">
-                  {/* Program Header */}
-                  <div className="mb-4">
-                    <div
-                      className={`inline-block bg-gradient-to-r ${getLevelColor(program.branch)} mb-3 rounded-full px-3 py-1 text-xs font-bold text-white`}
-                    >
+          {loading ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400"></div>
+            </div>
+          ) : error ? (
+            <div className="text-center py-12">
+              <div className="text-red-400 mb-4">⚠️ {error}</div>
+              <p className="text-gray-400">Please try again later</p>
+            </div>
+          ) : (
+            <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {programs.map((program, index) => (
+                <div
+                  key={program._id || index}
+                  className={`border bg-black/50 backdrop-blur-sm ${getLevelBorder(program.colorTheme)} hover-glow group flex h-full transform flex-col rounded-xl p-6 transition-all duration-300 hover:scale-105`}
+                >
+                  {/* Card Content Container */}
+                  <div className="flex flex-grow flex-col">
+                    {/* Program Header */}
+                    <div className="mb-4">
+                      <div
+                        className={`inline-block bg-gradient-to-r ${getLevelColor(program.colorTheme)} mb-3 rounded-full px-3 py-1 text-xs font-bold text-white`}
+                      >
                       {program.branch}
                     </div>
                     <h3 className="font-orbitron mb-1 text-lg font-bold text-white">
@@ -273,8 +309,8 @@ const Programs = () => {
                 {/* CTA Button - Always at bottom */}
                 <div className="mt-auto">
                   <button
-                    onClick={() => handleEnrollClick(program.branch)}
-                    className={`w-full bg-gradient-to-r ${getLevelColor(program.branch)} hover-glow transform rounded-lg py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:scale-105`}
+                    onClick={() => handleEnrollClick(program)}
+                    className={`w-full bg-gradient-to-r ${getLevelColor(program.colorTheme)} hover-glow transform rounded-lg py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:scale-105`}
                   >
                     Enroll Now
                   </button>
@@ -282,6 +318,7 @@ const Programs = () => {
               </div>
             ))}
           </div>
+          )}
         </div>
       </section>
 

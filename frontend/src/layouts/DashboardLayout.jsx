@@ -12,7 +12,8 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  UserPlus
+  UserPlus,
+  BookOpen
 } from 'lucide-react'
 
 const DashboardLayout = () => {
@@ -70,6 +71,7 @@ const DashboardLayout = () => {
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Students', href: '/dashboard/students', icon: Users },
     { name: 'Tournaments', href: '/dashboard/tournaments', icon: Trophy },
+    { name: 'Programs', href: '/dashboard/programs', icon: BookOpen },
     { name: 'Enrollments', href: '/dashboard/enrollments', icon: UserPlus },
   ]
 
