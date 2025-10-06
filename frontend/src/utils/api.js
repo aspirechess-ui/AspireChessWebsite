@@ -1,12 +1,14 @@
 import axios from 'axios'
 
 // Determine the correct base URL based on environment
-const baseURL = import.meta.env.MODE === 'production' 
-  ? 'https://aspire-chess-academy-backend.onrender.com'  // Your production backend URL
-  : 'http://localhost:5000';  // Local development
+const baseURL = import.meta.env.VITE_BACKEND_URL || 
+  (import.meta.env.MODE === 'production' 
+    ? 'https://aspire-chess-website-backend.vercel.app'  // Fallback production backend URL
+    : 'http://localhost:5000');  // Fallback local development
 
 console.log('API Base URL:', baseURL);
 console.log('Environment Mode:', import.meta.env.MODE);
+console.log('Frontend URL:', import.meta.env.VITE_FRONTEND_URL);
 
 // Create axios instance with base configuration
 const api = axios.create({

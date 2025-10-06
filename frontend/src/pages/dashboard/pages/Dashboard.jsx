@@ -274,7 +274,7 @@ const Dashboard = () => {
                     </Link>
 
                     <a
-                        href="https://aspire-chess-academy.vercel.app/"
+                        href={import.meta.env.VITE_FRONTEND_URL || "https://aspire-chess-academy.vercel.app/"}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors sm:col-span-2 lg:col-span-1"
