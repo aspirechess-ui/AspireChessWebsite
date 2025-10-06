@@ -37,7 +37,8 @@ const corsOptions = {
     const allowedOrigins = [
       // Production/staging frontend URL from environment variable
       process.env.FRONTEND_URL,
-      'https://aspire-chess-website-frontend.vercel.app/',
+      'https://aspirechessacademy.in',
+      'https://aspire-chess-website-frontend.vercel.app',
       // Local development
       'http://localhost:5173',
       'http://localhost:5174',
