@@ -1,0 +1,30 @@
+{
+  "name": "aspire-chess-academy",
+  "version": "1.0.0",
+  "description": "Aspire Chess Academy - Full Stack Application",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd backend && npm run dev",
+    "frontend": "cd frontend && npm run dev",
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "build": "cd frontend && npm run build",
+    "start": "cd backend && npm start"
+  },
+  "keywords": [
+    "chess",
+    "academy",
+    "react",
+    "node",
+    "express",
+    "mongodb"
+  ],
+  "author": "Aspire Chess Academy",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "cloudinary": "^2.7.0"
+  }
+}
