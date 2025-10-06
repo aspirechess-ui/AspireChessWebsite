@@ -44,6 +44,9 @@ A Node.js/Express backend API for managing students (testimonials) and tournamen
    JWT_EXPIRE=7d
    NODE_ENV=development
    
+   # Frontend URL for CORS configuration
+   FRONTEND_URL=http://localhost:5173
+   
    # Admin Credentials
    ADMIN_EMAIL=admin@aspirechess.com
    ADMIN_PASSWORD=admin123456
@@ -193,6 +196,7 @@ This uses nodemon for automatic server restart on file changes.
 - `JWT_SECRET`: Secret key for JWT tokens
 - `JWT_EXPIRE`: Token expiration time
 - `NODE_ENV`: Environment (development/production)
+- `FRONTEND_URL`: Frontend application URL for CORS configuration (e.g., https://yourdomain.com)
 - `ADMIN_EMAIL`: Default admin email
 - `ADMIN_PASSWORD`: Default admin password
 

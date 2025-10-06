@@ -35,14 +35,14 @@ const corsOptions = {
     if (!origin) return callback(null, true);
     
     const allowedOrigins = [
-      'https://aspire-chess-academy.vercel.app',
-      // Allow all Vercel preview URLs
-      /^https:\/\/aspire-chess-academy-[a-z0-9]+-i-am-krishhs-projects\.vercel\.app$/,
+      // Production/staging frontend URL from environment variable
+      process.env.FRONTEND_URL,
+      'https://aspire-chess-website-frontend.vercel.app/',
       // Local development
       'http://localhost:5173',
       'http://localhost:5174',
       'http://localhost:3000'
-    ];
+    ].filter(Boolean); // Remove any undefined values
     
     // Check if origin matches any allowed pattern
     const isAllowed = allowedOrigins.some(allowedOrigin => {
