@@ -75,10 +75,10 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            MASTER THE
+            Aspiring Today,
             <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600">
-              FUTURE OF STRATEGY
+              Achieving Tomorrow
             </span>
           </motion.h1>
 
